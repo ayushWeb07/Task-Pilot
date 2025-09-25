@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Todo{% endblock %}
+
+{% block content %}
+    <div class="edit_todo">
+        <h1>Edit todo</h1>
+
+        {% if error %}
+            <p style="color:red;">{{ error }}</p>
+        {% endif %}
+
+        
+
+        <form action="{{ url_for('todos.update_todo', todo_id=todo.id) }}" method="post">
+
+            <textarea name="content" placeholder="Enter content">{{ todo.content }}</textarea>
+
+            <select name="priority" required>
+                <option value="Low" {% if todo.priority == 'Low' %}selected{% endif %}>Low</option>
+                <option value="Medium" {% if todo.priority == 'Medium' %}selected{% endif %}>Medium</option>
+                <option value="High" {% if todo.priority == 'High' %}selected{% endif %}>High</option>
+            </select>
+
+
+
+            <input type="submit" value="Update todo">
+        </form>
+
+
+    </div>
+{% endblock %}

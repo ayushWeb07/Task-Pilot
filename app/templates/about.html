@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}About - Todos App{% endblock %}
+
+{% block content %}
+<div class="about-container">
+    <h1>About Task Pilot</h1>
+    <p>
+        Welcome to <strong>Task Pilot</strong> 🎉 — a simple yet powerful task management tool built with
+        <span class="highlight-blue">Flask</span> and <span class="highlight-yellow">SQLite</span>.  
+        This app helps you stay organized by letting you:
+    </p>
+
+    <ul>
+        <li>🔹 User authentication (login, register, logout)</li>
+        <li>🔹 Add new tasks to keep track of what needs to be done.</li>
+        <li>🔹 Prioritizing tasks for better management.</li>
+        <li>🔹Update task status (mark as complete or incomplete).</li>
+        <li>🔹 Delete tasks you no longer need.</li>
+        <li>🔹 Secure authentication, so each user has their own private todo list.</li>
+    </ul>
+
+    <p class="about-footer">
+        🚀 Made with ❤️ and Flask — by <span class="highlight-yellow" >Team 404 Errors</span>
+    </p>
+</div>
+{% endblock %}

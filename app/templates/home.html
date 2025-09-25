@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% block title %}Home Page{% endblock %}
+
+{% block content %}
+    <div class="home">
+
+
+        <div class="home_create_todo">
+            <form action="{{url_for('todos.add_todo')}}" method="POST">
+
+                <textarea required name="content" placeholder="Add a task..."></textarea>
+
+                <select name="priority" required>
+                    <option value="" disabled selected>Choose a priority level</option>
+
+                    <option value="Low">Low</option>
+                    <option value="Medium">Medium</option>
+                    <option value="High">High</option>
+
+                </select>
+
+
+                <input type="submit" value="Add">
+            </form>
+        </div>
+
+        <div class="home_todos">
+
+            {% if todos %}
+
+            <p class="progress" >
+                {% set completed = todos | selectattr('is_completed') | list | length %}
+
+
+                {{ completed }} tasks Completed out of {{ todos|length }}
+            </p>
+
+
+
+            {% for todo in todos %}
+            
+            <div class="home_todos-todo">
+                <div class="home_todos-todo-info">
+                    <span>Status: {{"Completed" if todo.is_completed else "Remaining"}} </span>
+
+                    <span class="priority-{{todo.priority}}" style="margin-right: auto; margin-left: 20px;">Priority: {{todo.priority}} </span>
+
+
+                    <div class="home_todos-todo-info-icons">
+                       
+                        <form action="{{ url_for('todos.update_todo', todo_id=todo.id) }}"  method= "post">
+                            <input type="hidden" name="is_completed" value="{{not todo.is_completed}}">
+
+                            <button type="submit" class="{{'home_todos-todo-info-icons-untick' if todo.is_completed else 'home_todos-todo-info-icons-tick'}}">
+
+                                {% if todo.is_completed %}
+                                <img src="{{ url_for('static', filename='assets/untick.png') }}" alt="" srcset="">
+
+                                {% else %}
+                                <img src="{{ url_for('static', filename='assets/tick.png') }}" alt="" srcset="">
+
+                                {% endif %}
+
+                            </button>
+                        </form>
+
+
+                        {% if not todo.is_completed %}
+
+                        <form action="{{ url_for('todos.update_todo', todo_id=todo.id) }}"  method= "get">
+                            <button type="submit" class="edit-btn">
+                                <img src="{{ url_for('static', filename='assets/edit.png') }}" alt="" srcset="">
+                            </button>
+                        </form>
+
+                        <form action="{{ url_for('todos.delete_todo', todo_id=todo.id) }}"  method= "post" class="home_todos-todo-info-icons-delete">                            
+
+                            <button type="submit" class="delete-btn">
+                                <img src="{{ url_for('static', filename='assets/bin.png') }}" alt="" srcset="">
+                            </button>
+
+                        </form>
+
+                        {% endif %}
+                    </div>
+                </div>
+
+                {% if todo.is_completed %}
+                <p style="text-decoration: line-through;" >{{todo.content}}</p>
+                
+                {%else %}
+                <p>{{todo.content}}</p>
+
+                {% endif %}
+
+            </div>
+
+            {% endfor %}
+
+
+            {% else %}
+            <p>No todos to show</p>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+{% endblock %}
